@@ -9,7 +9,7 @@
     "module": "esnext",
     "moduleResolution": "node",
      // TODO: MUDAR PARA BUDLER
-    "resolveJsonModule": true,
+    "resolveJsonModule": false,
     "isolatedModules": true,
    
     "jsx": "preserve",
