@@ -1,3 +1,5 @@
+import { useNewAccount } from "../hooks/use-new-accounts";
+
 import {
   Sheet,
   SheetContent,
@@ -6,9 +8,11 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 
-export const NewAccountSheet = () => {
+export const NewAccountSheet: React.FC = () => {
+  const { isOpen, onClose } = useNewAccount();
+
   return (
-    <Sheet open>
+    <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="space-y-4">
         <SheetHeader>
           <SheetTitle>New Account</SheetTitle>
