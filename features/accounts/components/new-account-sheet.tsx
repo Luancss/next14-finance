@@ -1,4 +1,3 @@
-import { useNewAccount } from "../hooks/use-new-accounts";
 
 import {
   Sheet,
@@ -7,6 +6,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { AccountForm } from "@/features/accounts/components/account-form";
+import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 
 export const NewAccountSheet: React.FC = () => {
   const { isOpen, onClose } = useNewAccount();
@@ -20,6 +21,7 @@ export const NewAccountSheet: React.FC = () => {
             Create a new account to track your transactions.
           </SheetDescription>
         </SheetHeader>
+        <AccountForm onSubmit={() => {}} disabled={false}/>
       </SheetContent>
     </Sheet>
   )
