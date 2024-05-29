@@ -1,0 +1,1 @@
+ALTER TABLE "categories" RENAME COLUMN "user_Id" TO "user_id";
