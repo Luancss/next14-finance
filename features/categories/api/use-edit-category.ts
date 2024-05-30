@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { client } from "@/lib/hono";
 
-type ResponseType = InferResponseType<typeof client.api.accounts[":id"]["$patch"]>;
-type RequestType = InferRequestType<typeof client.api.accounts[":id"]["$patch"]>["json"];
+type ResponseType = InferResponseType<typeof client.api.categories[":id"]["$patch"]>;
+type RequestType = InferRequestType<typeof client.api.categories[":id"]["$patch"]>["json"];
 
 export const useEditCategory = (id?: string) => {
   const queryClient = useQueryClient();

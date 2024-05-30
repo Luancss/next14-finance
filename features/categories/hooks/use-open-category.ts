@@ -7,7 +7,7 @@ type OpenCategoryState = {
   onClose: () => void;
 };
 
-export const useOpenAccount = create<OpenCategoryState>((set) => ({
+export const useOpenCategory = create<OpenCategoryState>((set) => ({
   id: undefined,
   isOpen: false,
   onOpen: (id: string) => set({isOpen: true, id}),
