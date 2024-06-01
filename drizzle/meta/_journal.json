@@ -120,6 +120,13 @@
       "when": 1717018400148,
       "tag": "0016_grey_turbo",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "6",
+      "when": 1717266383438,
+      "tag": "0017_square_jackal",
+      "breakpoints": true
     }
   ]
 }
