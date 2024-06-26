@@ -1,39 +1,39 @@
-import { Hono } from "hono";
-import { db } from "@/db/drizzle";
-import { createId } from "@paralleldrive/cuid2";
-
-import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
-import { and, eq, inArray } from "drizzle-orm";
-import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
+import { Hono } from "hono";
+import { and, eq, inArray } from "drizzle-orm";
+import { createId } from "@paralleldrive/cuid2";
+import { zValidator } from "@hono/zod-validator";
+import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
+
+import { db } from "@/db/drizzle";
 import { categories, insertCategorySchema } from "@/db/schema";
 
 const app = new Hono()
-  .get("/", clerkMiddleware(), async (c) => {
-    const auth = getAuth(c);
+  .get(
+    "/",
+    clerkMiddleware(),
+    async (c) => {
+      const auth = getAuth(c);
 
-    if (!auth?.userId) {
-      return c.json({ error: "Unauthorized" }, 401);
-    }
+      if (!auth?.userId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
 
-    const data = await db
-      .select({
-        id: categories.id,
-        name: categories.name,
-      })
-      .from(categories)
-      .where(eq(categories.userId, auth.userId));
+      const data = await db
+        .select({
+          id: categories.id,
+          name: categories.name,
+        })
+        .from(categories)
+        .where(eq(categories.userId, auth.userId));
 
-    return c.json({ data });
+      return c.json({ data });
   })
   .get(
     "/:id",
-    zValidator(
-      "param",
-      z.object({
-        id: z.string().optional(),
-      })
-    ),
+    zValidator("param", z.object({
+      id: z.string().optional(),
+    })),
     clerkMiddleware(),
     async (c) => {
       const auth = getAuth(c);
@@ -42,7 +42,7 @@ const app = new Hono()
       if (!id) {
         return c.json({ error: "Missing id" }, 400);
       }
-
+      
       if (!auth?.userId) {
         return c.json({ error: "Unauthorized" }, 401);
       }
@@ -53,8 +53,13 @@ const app = new Hono()
           name: categories.name,
         })
         .from(categories)
-        .where(and(eq(categories.userId, auth.userId), eq(categories.id, id)));
-
+        .where(
+          and(
+            eq(categories.userId, auth.userId),
+            eq(categories.id, id)
+          ),
+        );
+      
       if (!data) {
         return c.json({ error: "Not found" }, 404);
       }
@@ -65,12 +70,9 @@ const app = new Hono()
   .post(
     "/",
     clerkMiddleware(),
-    zValidator(
-      "json",
-      insertCategorySchema.pick({
-        name: true,
-      })
-    ),
+    zValidator("json", insertCategorySchema.pick({
+      name: true,
+    })),
     async (c) => {
       const auth = getAuth(c);
       const values = c.req.valid("json");
@@ -79,18 +81,14 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const [data] = await db
-        .insert(categories)
-        .values({
-          id: createId(),
-          userId: auth.userId,
-          ...values,
-        })
-        .returning();
+      const [data] = await db.insert(categories).values({
+        id: createId(),
+        userId: auth.userId,
+        ...values,
+      }).returning();
 
       return c.json({ data });
-    }
-  )
+  })
   .post(
     "/bulk-delete",
     clerkMiddleware(),
@@ -98,7 +96,7 @@ const app = new Hono()
       "json",
       z.object({
         ids: z.array(z.string()),
-      })
+      }),
     ),
     async (c) => {
       const auth = getAuth(c);
@@ -121,7 +119,7 @@ const app = new Hono()
         });
 
       return c.json({ data });
-    }
+    },
   )
   .patch(
     "/:id",
@@ -130,7 +128,7 @@ const app = new Hono()
       "param",
       z.object({
         id: z.string().optional(),
-      })
+      }),
     ),
     zValidator(
       "json",
@@ -154,7 +152,12 @@ const app = new Hono()
       const [data] = await db
         .update(categories)
         .set(values)
-        .where(and(eq(categories.userId, auth.userId), eq(categories.id, id)))
+        .where(
+          and(
+            eq(categories.userId, auth.userId),
+            eq(categories.id, id),
+          ),
+        )
         .returning();
 
       if (!data) {
@@ -162,7 +165,7 @@ const app = new Hono()
       }
 
       return c.json({ data });
-    }
+    },
   )
   .delete(
     "/:id",
@@ -171,7 +174,7 @@ const app = new Hono()
       "param",
       z.object({
         id: z.string().optional(),
-      })
+      }),
     ),
     async (c) => {
       const auth = getAuth(c);
@@ -190,7 +193,7 @@ const app = new Hono()
         .where(
           and(
             eq(categories.userId, auth.userId),
-            eq(categories.id, id)
+            eq(categories.id, id),
           ),
         )
         .returning({
@@ -202,7 +205,7 @@ const app = new Hono()
       }
 
       return c.json({ data });
-    }
+    },
   );
 
 export default app;

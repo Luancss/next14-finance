@@ -7,7 +7,7 @@ export const accounts = pgTable("accounts", {
   id: text("id").primaryKey(),
   plaidId: text("plaid_id"),
   name: text("name").notNull(),
-  userId: text("user_Id").notNull(),
+  userId: text("user_id").notNull(),
 });
 
 export const accountsRelations = relations(accounts, ({ many }) => ({
@@ -20,7 +20,7 @@ export const categories = pgTable("categories", {
   id: text("id").primaryKey(),
   plaidId: text("plaid_id"),
   name: text("name").notNull(),
-  userId: text("user_Id").notNull(),
+  userId: text("user_id").notNull(),
 });
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
@@ -46,7 +46,7 @@ export const transactions = pgTable("transactions", {
 });
 
 export const transactionsRelations = relations(transactions, ({ one }) => ({
-  accounts: one(accounts, {
+  account: one(accounts, {
     fields: [transactions.accountId],
     references: [accounts.id],
   }),
