@@ -10,12 +10,19 @@ export const useGetAccounts = () => {
   const accountId = params.get("accountId") || "";
 
   const query = useQuery({
-    queryKey: ["accounts"],
+    queryKey: ["transactions", { from, to, accountId }],
     queryFn: async () => {
-      const response = await client.api.accounts.$get();
+      const response = await client.api.transactions.$get({
+        query: {
+          from,
+          to,
+          accountId,
+        }
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch accounts");
+
+        throw new Error("Failed to fetch trasactions");
       }
 
       const { data } = await response.json();

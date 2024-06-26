@@ -10,7 +10,7 @@ import { AccountForm } from "@/features/accounts/components/account-form";
 import {} from "@/features/accounts/hooks/use-new-account";
 import { z } from "zod";
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
-import { useGetAccount } from "../api/use-get-account";
+import { useGetAccount } from "../api/use-get-transaction";
 import { Loader2 } from "lucide-react";
 import { useEditAccount } from "@/features/accounts/api/use-edit-account";
 import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
