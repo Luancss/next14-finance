@@ -11,7 +11,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "Node",
     // TODO: MUDAR PARA BUDLER
     "resolveJsonModule": true,
     "isolatedModules": true,
