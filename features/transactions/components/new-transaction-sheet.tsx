@@ -6,21 +6,21 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { insertAccountSchema } from "@/db/schema";
+import { insertTransactionSchema } from "@/db/schema";
 import { AccountForm } from "@/features/accounts/components/account-form";
-import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
+import { useNewTransaction } from "../hooks/use-new-transaction";
 import { z } from "zod";
-import { useCreateAccount } from "@/features/accounts/api/use-create-account";
+import { useCreateTransaction } from "../api/use-create-transaction";
 
-const formSchema = insertAccountSchema.pick({
-  name: true,
+const formSchema = insertTransactionSchema.omit({
+  id: true,
 });
 
 type FormValues = z.infer<typeof formSchema>
-export const NewAccountSheet = () => {
-  const { isOpen, onClose } = useNewAccount();
+export const NewTrasactionSheet = () => {
+  const { isOpen, onClose } = useNewTransaction();
 
-  const mutation = useCreateAccount();
+  const mutation = useCreateTransaction();
 
   const onSubmit = (values: FormValues) => {
     mutation.mutate(values, {
@@ -36,16 +36,10 @@ export const NewAccountSheet = () => {
         <SheetHeader>
           <SheetTitle>New Account</SheetTitle>
           <SheetDescription>
-            Create a new account to track your transactions.
+            Add a new transaction
           </SheetDescription>
         </SheetHeader>
-        <AccountForm 
-          onSubmit={onSubmit}
-          disabled={mutation.isPending}
-          defaultValues={{
-            name: "",
-          }}
-         />
+        <p>TODO: Transaction Form</p>
       </SheetContent>
     </Sheet>
   )
