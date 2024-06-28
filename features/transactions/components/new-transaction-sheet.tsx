@@ -17,7 +17,7 @@ const formSchema = insertTransactionSchema.omit({
 });
 
 type FormValues = z.infer<typeof formSchema>
-export const NewTrasactionSheet = () => {
+export const NewTransactionSheet = () => {
   const { isOpen, onClose } = useNewTransaction();
 
   const mutation = useCreateTransaction();
