@@ -37,6 +37,7 @@ type Props = {
   onSubmit: (data: ApiFormValues) => void;
   onDelete?: () => void;
   disabled?: boolean;
+  categoryOptions: {label: string; value: string;} [];
   accountOptions: {label: string; value: string;} [];
   onCreateAccount: (name: string) => void;
   onCreateCategory: (data: string) => void;
