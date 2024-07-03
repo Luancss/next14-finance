@@ -1,35 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
 
 import { client } from "@/lib/hono";
 import { convertAmountFromMiliunits } from "@/lib/utils";
 
-export const useGetTransactions = () => {
-  const params = useSearchParams();
-  const from = params.get("from") || "";
-  const to = params.get("to") || "";
-  const accountId = params.get("accountId") || "";
-
+export const useGetTransaction = (id?: string) => {
   const query = useQuery({
-    queryKey: ["transactions", { from, to, accountId }],
+    enabled: !!id,
+    queryKey: ["transaction", { id }],
     queryFn: async () => {
-      const response = await client.api.transactions.$get({
-        query: {
-          from,
-          to,
-          accountId,
-        },
+      const response = await client.api.transactions[":id"].$get({
+        param: { id },
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch transactions");
+        throw new Error("Failed to fetch transaction");
       }
 
       const { data } = await response.json();
-      return data.map((transaction) => ({
-        ...transaction,
-        amount: convertAmountFromMiliunits(transaction.amount),
-      }));
+      return {
+        ...data,
+        amount: convertAmountFromMiliunits(data.amount),
+      };
     },
   });
 

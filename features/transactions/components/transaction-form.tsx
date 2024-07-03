@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "@/components/date-picker";
 import { insertTransactionSchema } from "@/db/schema";
+import { convertAmountToMiliunits } from "@/lib/utils";
 import { AmountInput } from "@/components/amount-input";
 import {
   Form,
@@ -18,7 +19,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { convertAmountToMiliunits } from "@/lib/utils";
 
 const formSchema = z.object({
   date: z.coerce.date(),
@@ -70,7 +70,7 @@ export const TransactionForm = ({
 
     onSubmit({
       ...values,
-      amount: amount > 0 ? amount : amount * -1,
+      amount: amountInMiliunits,
     });
   };
 

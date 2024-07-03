@@ -1,4 +1,4 @@
-import {create} from "zustand"
+import { create } from "zustand";
 
 type NewCategoryState = {
   isOpen: boolean;
@@ -8,6 +8,6 @@ type NewCategoryState = {
 
 export const useNewCategory = create<NewCategoryState>((set) => ({
   isOpen: false,
-  onOpen: () => set({isOpen: true}),
-  onClose: () => set({isOpen: false}),
-}))
+  onOpen: () => set({ isOpen: true }),
+  onClose: () => set({ isOpen: false }),
+}));
