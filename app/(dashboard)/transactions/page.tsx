@@ -7,9 +7,9 @@ import { columns } from "./columns";
 import { DataTable } from "@/components/data-table";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transaction";
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
 import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
+import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
 
 const TrasactionsPage = () => {
   const newTransaction = useNewTransaction();
@@ -50,7 +50,7 @@ const TrasactionsPage = () => {
         </CardHeader>
         <CardContent>
           <DataTable
-            filterKey="email"
+            filterKey="payee"
             columns={columns}
             data={transactions}
             onDelete={(row) => {
