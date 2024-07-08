@@ -12,6 +12,7 @@ import { useGetTransactions } from "@/features/transactions/api/use-get-transact
 import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
 import { useState } from "react";
 import { UploadButton } from "./upload-button";
+import { ImportCard } from "./import-card";
 
 enum VARIANTS {
   LIST = "LIST",
@@ -26,6 +27,19 @@ const INITIAL_IMPORT_RESULTS = {
 
 const TrasactionsPage = () => {
   const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
+  const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS);
+
+  const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
+    console.log(results);
+    
+    setImportResults(results);
+    setVariant(VARIANTS.IMPORT);
+  };
+
+  const onCancelImport = () => {
+    setImportResults(INITIAL_IMPORT_RESULTS);
+    setVariant(VARIANTS.LIST);
+  }
 
   const newTransaction = useNewTransaction();
   const deleteTransactions = useBulkDeleteTransactions();
@@ -57,7 +71,11 @@ const TrasactionsPage = () => {
   if (variant === VARIANTS.IMPORT) {
     return (
       <>
-        <div>This is a screen for import</div>
+        <ImportCard
+          data={importResults.data}
+          onCancel={onCancelImport}
+          onSubmit={() => {}}
+        />
       </>
     );
   }
@@ -74,7 +92,7 @@ const TrasactionsPage = () => {
               <Plus className="size-4 mr-2" />
               Add new
             </Button>
-            <UploadButton onUpload={() => {}} />
+            <UploadButton onUpload={onUpload} />
           </div>
         </CardHeader>
         <CardContent>
