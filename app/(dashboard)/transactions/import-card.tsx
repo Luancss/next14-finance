@@ -1,20 +1,29 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { UploadButton } from "./upload-button";
 import { useState } from "react";
-import { ImportTable } from "./import-table";
-import { convertAmountToMiliunits } from "@/lib/utils";
 import { format, parse } from "date-fns";
+
+import { 
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { convertAmountToMiliunits } from "@/lib/utils";
+
+import { ImportTable } from "./import-table";
 
 const dateFormat = "yyyy-MM-dd HH:mm:ss";
 const outputFormat = "yyyy-MM-dd";
 
-const requiredOptions = ["amount", "date", "payee"];
+const requiredOptions = [
+  "amount",
+  "date",
+  "payee",
+];
 
 interface SelectedColumnsState {
   [key: string]: string | null;
-}
+};
 
 type Props = {
   data: string[][];
@@ -22,10 +31,12 @@ type Props = {
   onSubmit: (data: any) => void;
 };
 
-export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
-  const [selectedColumns, setSelectedColumns] = useState<SelectedColumnsState>(
-    {}
-  );
+export const ImportCard = ({
+  data,
+  onCancel,
+  onSubmit,
+}: Props) => {
+  const [selectedColumns, setSelectedColumns] = useState<SelectedColumnsState>({});
 
   const headers = data[0];
   const body = data.slice(1);
@@ -35,7 +46,7 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
     value: string | null
   ) => {
     setSelectedColumns((prev) => {
-      const newSelectedColumns = { ...prev };
+      const newSelectedColumns = {...prev};
 
       for (const key in newSelectedColumns) {
         if (newSelectedColumns[key] === value) {
@@ -64,18 +75,16 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
         const columnIndex = getColumnIndex(`column_${index}`);
         return selectedColumns[`column_${columnIndex}`] || null;
       }),
-      body: body
-        .map((row) => {
-          const transformedRow = row.map((cell, index) => {
-            const columnIndex = getColumnIndex(`column_${index}`);
-            return selectedColumns[`column_${columnIndex}`] ? cell : null;
-          });
+      body: body.map((row) => {
+        const transformedRow = row.map((cell, index) => {
+          const columnIndex = getColumnIndex(`column_${index}`);
+          return selectedColumns[`column_${columnIndex}`] ? cell : null;
+        });
 
-          return transformedRow.every((item) => item === null)
-            ? []
-            : transformedRow;
-        })
-        .filter((row) => row.length > 0),
+        return transformedRow.every((item) => item === null) 
+          ? []
+          : transformedRow;
+      }).filter((row) => row.length > 0),
     };
 
     const arrayOfData = mappedData.body.map((row) => {
@@ -84,7 +93,7 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
         if (header !== null) {
           acc[header] = cell;
         }
-
+        
         return acc;
       }, {});
     });
@@ -92,8 +101,10 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
     const formattedData = arrayOfData.map((item) => ({
       ...item,
       amount: convertAmountToMiliunits(parseFloat(item.amount)),
-      date: format(parse(item.date, dateFormat, new Date()), outputFormat),
+      date: format(parse(item.date, dateFormat, new Date()), outputFormat)
     }));
+
+    onSubmit(formattedData);
   };
 
   return (
@@ -104,16 +115,20 @@ export const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
             Import Transaction
           </CardTitle>
           <div className="flex flex-col lg:flex-row gap-y-2 items-center gap-x-2">
-            <Button onClick={onCancel} size="sm" className="w-full lg:w-auto">
+            <Button 
+              onClick={onCancel} 
+              size="sm" 
+              className="w-full lg:w-auto"
+            >
               Cancel
             </Button>
             <Button
               size="sm"
               disabled={progress < requiredOptions.length}
-              onSubmit={handleContinue}
+              onClick={handleContinue}
               className="w-full lg:w-auto"
             >
-              Continue ({progress}/{requiredOptions.length})
+              Continue ({progress} / {requiredOptions.length})
             </Button>
           </div>
         </CardHeader>

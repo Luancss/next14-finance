@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import { TableHeadSelect } from "./table-head-select";
 
 type Props = {
@@ -24,7 +25,7 @@ export const ImportTable = ({
   return (
     <div className="rounded-md border overflow-hidden">
       <Table>
-        <TableHeader>
+        <TableHeader className="bg-muted">
           <TableRow>
             {headers.map((_item, index) => (
               <TableHead key={index}>
