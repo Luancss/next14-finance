@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Plus } from "lucide-react";
 import { columns } from "./columns";
-import { DataTable } from "@/components/data-table";
+import { DataTable } from "@/components/data-table"; 
+import {transactions as transactionSchema} from "@/db/schema"
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
@@ -13,6 +14,7 @@ import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-
 import { useState } from "react";
 import { UploadButton } from "./upload-button";
 import { ImportCard } from "./import-card";
+import { useSelectAccount } from "@/features/accounts/hooks/use-select-account";
 
 enum VARIANTS {
   LIST = "LIST",
@@ -26,6 +28,7 @@ const INITIAL_IMPORT_RESULTS = {
 };
 
 const TrasactionsPage = () => {
+  const [AccountDialog, confirm] = useSelectAccount();
   const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
   const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS);
 
@@ -48,6 +51,12 @@ const TrasactionsPage = () => {
 
   const isDisabled =
     transactionsQuery.isLoading || deleteTransactions.isPending;
+
+  const onSubmitImport = async (
+    values: typeof transactionSchema.$inferInsert[],
+   ) => {
+    
+   };
 
   if (transactionsQuery.isLoading) {
     return (
@@ -74,7 +83,7 @@ const TrasactionsPage = () => {
         <ImportCard
           data={importResults.data}
           onCancel={onCancelImport}
-          onSubmit={() => {}}
+          onSubmit={onSubmitImport}
         />
       </>
     );
