@@ -9,6 +9,7 @@
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:seed": "drizzle-kit seed",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
