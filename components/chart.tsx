@@ -5,6 +5,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FileSearch } from "lucide-react";
+import { AreaVariant } from "./aria-variant";
 
 type Props = {
   data?: {
