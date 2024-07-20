@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import {client} from "@/lib/hono";
+import { client } from "@/lib/hono";
 
 export const useGetAccount = (id?: string) => {
   const query = useQuery({
@@ -21,4 +21,4 @@ export const useGetAccount = (id?: string) => {
   });
 
   return query;
-}
+};

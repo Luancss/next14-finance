@@ -1,6 +1,7 @@
+import { toast } from "sonner";
 import { InferRequestType, InferResponseType } from "hono";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+
 import { client } from "@/lib/hono";
 
 type ResponseType = InferResponseType<typeof client.api.categories[":id"]["$patch"]>;
@@ -12,13 +13,13 @@ export const useEditCategory = (id?: string) => {
   const mutation = useMutation<
     ResponseType,
     Error,
-    RequestType  
+    RequestType
   >({
     mutationFn: async (json) => {
       const response = await client.api.categories[":id"]["$patch"]({ 
         param: { id },
         json,
-       });
+      });
       return await response.json();
     },
     onSuccess: () => {
@@ -26,8 +27,9 @@ export const useEditCategory = (id?: string) => {
       queryClient.invalidateQueries({ queryKey: ["category", { id }] });
       queryClient.invalidateQueries({ queryKey: ["categories"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["summary"] });
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("Failed to edit category");
     },
   });
