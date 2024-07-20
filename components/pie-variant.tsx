@@ -8,7 +8,8 @@ import {
 } from "recharts";
 
 import { CategoryTooltip } from "@/components/category-tooltip";
-import { FormatPercentage } from "@/lib/utils";
+import { formatPercentage } from "@/lib/utils";
+
 
 const COLORS = ["#0062FF", "#12C6FF", "#FF647F", "#FF9354"];
 
@@ -45,7 +46,7 @@ export const PieVariant = ({ data }: Props) => {
                         {entry.value}
                       </span>
                       <span className="text-sm">
-                        {FormatPercentage(entry.payload.percent * 100)}
+                        {formatPercentage(entry.payload.percent * 100)}
                       </span>
                     </div>
                   </li>

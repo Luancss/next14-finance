@@ -77,13 +77,10 @@ export const TransactionForm = ({
   const handleDelete = () => {
     onDelete?.();
   };
-  
+
   return (
     <Form {...form}>
-      <form 
-        onSubmit={form.handleSubmit(handleSubmit)} 
-        className="space-y-4 pt-4"
-      >
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 pt-4">
         <FormField
           name="date"
           control={form.control}
@@ -196,7 +193,7 @@ export const TransactionForm = ({
             </FormItem>
           )}
         />
-        <Button className="w-full" disabled={disabled}>
+        <Button type="submit" className="w-full" disabled={disabled}>
           {id ? "Save changes" : "Create transaction"}
         </Button>
         {!!id && (
