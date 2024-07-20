@@ -1,12 +1,13 @@
 "use client";
 
 import { FaPiggyBank } from "react-icons/fa";
-import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
-import { useGetSummary } from "@/features/summary/api/use-get-summary";
-import { Skeleton } from "./ui/skeleton";
-import { formatDateRange } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
-import { DataCard, DataCardLoading } from "./data-card";
+import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
+
+import { useGetSummary } from "@/features/summary/api/use-get-summary";
+
+import { formatDateRange } from "@/lib/utils";
+import { DataCard, DataCardLoading } from "@/components/data-card";
 
 export const DataGrid = () => {
   const { data, isLoading } = useGetSummary();
@@ -24,30 +25,30 @@ export const DataGrid = () => {
         <DataCardLoading />
         <DataCardLoading />
       </div>
-    );
+    )
   }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-2 mb-8">
       <DataCard
-        icon={FaPiggyBank}
         title="Remaining"
         value={data?.remainingAmount}
         percentageChange={data?.remainingChange}
+        icon={FaPiggyBank}
         dateRange={dateRangeLabel}
       />
       <DataCard
-        icon={FaArrowTrendUp}
         title="Income"
         value={data?.incomeAmount}
         percentageChange={data?.incomeChange}
+        icon={FaArrowTrendUp}
         dateRange={dateRangeLabel}
       />
       <DataCard
-        icon={FaArrowTrendDown}
         title="Expenses"
         value={data?.expensesAmount}
         percentageChange={data?.expensesChange}
+        icon={FaArrowTrendDown}
         dateRange={dateRangeLabel}
       />
     </div>

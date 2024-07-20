@@ -1,17 +1,18 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Edit, MoreHorizontal, Trash } from "lucide-react";
 
+import { useOpenCategory } from "@/features/categories/hooks/use-open-category";
+import { useDeleteCategory } from "@/features/categories/api/use-delete-category";
+
+import { useConfirm } from "@/hooks/use-confirm";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useOpenCategory } from "@/features/categories/hooks/use-open-category";
-import { useDeleteCategory } from "@/features/categories/api/use-delete-category";
-import { useConfirm } from "@/hooks/use-confirm";
 
 type Props = {
   id: string;
@@ -22,6 +23,7 @@ export const Actions = ({ id }: Props) => {
     "Are you sure?",
     "You are about to delete this category."
   );
+
   const deleteMutation = useDeleteCategory(id);
   const { onOpen } = useOpenCategory();
 
@@ -44,14 +46,16 @@ export const Actions = ({ id }: Props) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
-           disabled={deleteMutation.isPending}
-           onClick={() => onOpen(id)}>
+            disabled={deleteMutation.isPending}
+            onClick={() => onOpen(id)}
+          >
             <Edit className="size-4 mr-2" />
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem 
+          <DropdownMenuItem
             disabled={deleteMutation.isPending}
-            onClick={handleDelete}>
+            onClick={handleDelete}
+          >
             <Trash className="size-4 mr-2" />
             Delete
           </DropdownMenuItem>
