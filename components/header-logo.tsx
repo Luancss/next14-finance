@@ -5,11 +5,11 @@ export const HeaderLogo = () => {
   return (
     <Link href="/">
       <div className="items-center hidden lg:flex">
-        <Image src="/logo.svg" alt="Logo" width={28} height={28} className=""/>
+        <Image src="/logo.svg" alt="Logo" height={28} width={28} />
         <p className="font-semibold text-white text-2xl ml-2.5">
-          Finance 
+          Finance
         </p>
       </div>
     </Link>
-  )
-}
+  );
+};

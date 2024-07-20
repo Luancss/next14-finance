@@ -15,10 +15,9 @@ import {
   CardTitle
 } from "@/components/ui/card";
 import { PieVariant } from "@/components/pie-variant";
-
+import { RadarVariant } from "@/components/radar-variant";
+import { RadialVariant } from "@/components/radial-variant";
 import { Skeleton } from "./ui/skeleton";
-import { RadialVariant } from "./radial-variant";
-import { RadarVariant } from "./radar-variant";
 
 type Props = {
   data?: {

@@ -1,30 +1,34 @@
 "use client";
 
-import qs from "query-string";
 import { useState } from "react";
-import { format, subDays } from "date-fns";
-import { DateRange } from "react-day-picker";
-import { ChevronDown } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
-import { useGetSummary } from "@/features/summary/api/use-get-summary";
-import { cn, formatDateRange } from "@/lib/utils";
-import { Button } from "./ui/button";
-import { Calendar } from "./ui/calendar";
+import { format, subDays } from "date-fns"
+import { DateRange } from "react-day-picker"
+import { ChevronDown } from "lucide-react"
+import qs from "query-string";
+import { 
+  useRouter,
+  usePathname,
+  useSearchParams
+} from "next/navigation";
 
+import { useGetSummary } from "@/features/summary/api/use-get-summary";
+
+import { cn, formatDateRange } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
   PopoverClose,
-} from "./ui/popover";
+} from "@/components/ui/popover";
 
 export const DateFilter = () => {
   const router = useRouter();
   const pathname = usePathname();
 
   const params = useSearchParams();
-  const accountId = params.get("account_id");
+  const accountId = params.get("accountId");
   const from = params.get("from") || "";
   const to = params.get("to") || "";
 
@@ -36,7 +40,9 @@ export const DateFilter = () => {
     to: to ? new Date(to) : defaultTo,
   };
 
-  const [date, setDate] = useState<DateRange | undefined>(paramState);
+  const [date, setDate] = useState<DateRange | undefined>(
+    paramState
+  );
 
   const pushToUrl = (dateRange: DateRange | undefined) => {
     const query = {
@@ -45,13 +51,10 @@ export const DateFilter = () => {
       accountId,
     };
 
-    const url = qs.stringifyUrl(
-      {
-        url: pathname,
-        query,
-      },
-      { skipNull: true, skipEmptyString: true }
-    );
+    const url = qs.stringifyUrl({
+      url: pathname,
+      query,
+    }, { skipEmptyString: true, skipNull: true, });
 
     router.push(url);
   };
@@ -68,13 +71,16 @@ export const DateFilter = () => {
           disabled={false}
           size="sm"
           variant="outline"
-          className="lg:w-auto w-full h-9 rounded-md px-3 font-normal bg-white/10 hover:bg-white/20 hover:text-white border-none focus-visible:ring-offset-0 focus-visible:ring-transparent text-white focus:bg-white/30 transition"
+          className="lg:w-auto w-full h-9 rounded-md px-3 font-normal bg-white/10 hover:bg-white/20 hover:text-white border-none focus:ring-offset-0 focus:ring-transparent outline-none text-white focus:bg-white/30 transition"
         >
           <span>{formatDateRange(paramState)}</span>
-          <ChevronDown className="size-4 ml-2 opacity-50" />
+          <ChevronDown className="ml-2 size-4 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="lg:w-auto w-full p-0" align="start">
+      <PopoverContent 
+        className="lg:w-auto w-full p-0" 
+        align="start"
+      >
         <Calendar
           disabled={false}
           initialFocus
@@ -87,8 +93,17 @@ export const DateFilter = () => {
         <div className="p-4 w-full flex items-center gap-x-2">
           <PopoverClose asChild>
             <Button
-              onClick={() => pushToUrl(date)}
+              onClick={onReset}
+              disabled={!date?.from || !date?.to}
+              className="w-full"
               variant="outline"
+            >
+              Reset
+            </Button>
+          </PopoverClose>
+          <PopoverClose asChild>
+            <Button
+              onClick={() => pushToUrl(date)}
               disabled={!date?.from || !date?.to}
               className="w-full"
             >
@@ -98,5 +113,5 @@ export const DateFilter = () => {
         </div>
       </PopoverContent>
     </Popover>
-  );
+  );  
 };
