@@ -4,7 +4,6 @@ import { Loader2 } from "lucide-react";
 import { useGetTransaction } from "@/features/transactions/api/use-get-transaction";
 import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction";
 import { useEditTransaction } from "@/features/transactions/api/use-edit-transaction";
-import { useDeleteTransaction } from "@/features/transactions/api/use-delete-transaction";
 import { TransactionForm } from "@/features/transactions/components/transaction-form";
 
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
@@ -22,6 +21,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { useDeleteTransaction } from "../api/use-delete-transaction";
 
 const formSchema = insertTransactionSchema.omit({
   id: true,

@@ -2,7 +2,7 @@ import { IconType } from "react-icons";
 import { VariantProps, cva } from "class-variance-authority";
 
 import { Skeleton } from "./ui/skeleton";
-import { cn, formatCurrency, FormatPercentage } from "@/lib/utils";
+import { cn, formatCurrency, formatPercentage } from "@/lib/utils";
 import { CountUp } from "@/components/count-up";
 import { 
   Card,
@@ -97,7 +97,7 @@ export const DataCard = ({
           percentageChange > 0 && "text-emerald-500",
           percentageChange < 0 && "text-rose-500",
         )}>
-          {FormatPercentage(percentageChange, { addPrefix: true })} from last period
+          {formatPercentage(percentageChange, { addPrefix: true })} from last period
         </p>
       </CardContent>
     </Card>

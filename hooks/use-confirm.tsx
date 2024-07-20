@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -7,31 +7,31 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from "@/components/ui/dialog";
 
 export const useConfirm = (
   title: string,
   message: string,
-): [() => JSX.Element, () => Promise<unknown>] => { 
-  const [promise, setPromise] = useState< {resolve: (value: boolean) => void} | null>(null);
+): [() => JSX.Element, () => Promise<unknown>] => {
+  const [promise, setPromise] = useState<{ resolve: (value: boolean) => void } | null>(null);
 
   const confirm = () => new Promise((resolve, reject) => {
-    setPromise({resolve});
+    setPromise({ resolve });
   });
 
-  const handleClone = () => {
+  const handleClose = () => {
     setPromise(null);
   };
 
   const handleConfirm = () => {
     promise?.resolve(true);
-    handleClone();
+    handleClose();
   };
 
   const handleCancel = () => {
     promise?.resolve(false);
-    handleClone();
+    handleClose();
   };
 
   const ConfirmationDialog = () => (
@@ -42,10 +42,13 @@ export const useConfirm = (
           <DialogDescription>{message}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-2">
-          <Button variant="outline" onClick={handleCancel}>
+          <Button
+            onClick={handleCancel}
+            variant="outline"
+          >
             Cancel
           </Button>
-          <Button variant="outline" onClick={handleConfirm}>
+          <Button onClick={handleConfirm}>
             Confirm
           </Button>
         </DialogFooter>
@@ -54,4 +57,4 @@ export const useConfirm = (
   );
 
   return [ConfirmationDialog, confirm];
-}
+};
